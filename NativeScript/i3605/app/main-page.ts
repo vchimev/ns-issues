@@ -8,6 +8,11 @@ import { EventData } from 'data/observable';
 import { Page } from 'ui/page';
 import { HelloWorldModel } from './main-view-model';
 
+import * as cameraModule from "nativescript-camera";
+import * as ImageSourceModule from "image-source";
+
+let viewModel = new HelloWorldModel();
+
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
     /*
@@ -16,7 +21,9 @@ export function navigatingTo(args: EventData) {
     https://docs.nativescript.org/api-reference/classes/_ui_page_.page.html
     */
     let page = <Page>args.object;
-    
+
+    cameraModule.requestPermissions();
+
     /*
     A page’s bindingContext is an object that should be used to perform
     data binding between XML markup and TypeScript code. Properties
@@ -27,5 +34,26 @@ export function navigatingTo(args: EventData) {
     You can learn more about data binding in NativeScript at
     https://docs.nativescript.org/core-concepts/data-binding.
     */
-    page.bindingContext = new HelloWorldModel();
+    page.bindingContext = viewModel;
+}
+
+export function takePhoto() {
+
+    // This does not work.
+    cameraModule.takePicture({
+        width: 1280, height: 720, keepAspectRatio: false, saveToGallery: false
+    }).then(function (imageAsset) {
+        console.log("Result is an image asset instance");
+        viewModel.set("BoardingPassSource", imageAsset);
+        var image = ImageSourceModule.fromNativeSource(imageAsset);
+        var base64 = image.toBase64String("jpeg");
+        // var image = new imageModule.Image();
+        // image.imageSource = imageAsset;
+        // image.toBase64String("jpeg");
+        viewModel.set("base64String", base64);
+    }).catch(function (err) {
+        console.log("Error -> " + err.message);
+    });
+
+    // This works!
 }
