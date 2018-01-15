@@ -38,22 +38,25 @@ export function navigatingTo(args: EventData) {
 }
 
 export function takePhoto() {
-
-    // This does not work.
     cameraModule.takePicture({
         width: 1280, height: 720, keepAspectRatio: false, saveToGallery: false
     }).then(function (imageAsset) {
+        // This does not work.
+        // console.log("Result is an image asset instance");
+        // viewModel.set("BoardingPassSource", imageAsset);
+        // var image = ImageSourceModule.fromNativeSource(imageAsset);
+        // var base64 = image.toBase64String("jpeg");
+        // viewModel.set("base64String", base64);
+
+        // This works!
         console.log("Result is an image asset instance");
         viewModel.set("BoardingPassSource", imageAsset);
-        var image = ImageSourceModule.fromNativeSource(imageAsset);
-        var base64 = image.toBase64String("jpeg");
-        // var image = new imageModule.Image();
-        // image.imageSource = imageAsset;
-        // image.toBase64String("jpeg");
-        viewModel.set("base64String", base64);
+        imageAsset.getImageAsync(image => {
+            let imageSource = ImageSourceModule.fromNativeSource(image);
+            let encodedString = imageSource.toBase64String("jpeg");
+            console.log(encodedString);
+        })
     }).catch(function (err) {
         console.log("Error -> " + err.message);
     });
-
-    // This works!
 }
