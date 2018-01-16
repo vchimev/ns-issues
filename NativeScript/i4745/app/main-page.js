@@ -8,8 +8,11 @@ logic, and to set up your page’s data binding.
 NativeScript adheres to the CommonJS specification for dealing with
 JavaScript modules. The CommonJS require() function is how you import
 JavaScript modules defined in other files.
-*/ 
+*/
+
 var createViewModel = require("./main-view-model").createViewModel;
+var frameModule = require("ui/frame");
+var label = require('ui/label');
 
 function onNavigatingTo(args) {
     /*
@@ -32,6 +35,33 @@ function onNavigatingTo(args) {
     page.bindingContext = createViewModel();
 }
 
+function onLoaded(args) {
+    setTitle(args); //Un-comment this code to trigger this issue in the main page
+}
+
+function setTitle(args) {
+    var page = args.object;
+    var actionBarTitleLabel = new label.Label();
+    var titleText = "MY PAGE TITLE";
+    actionBarTitleLabel.text = titleText;
+    page.actionBar.titleView = actionBarTitleLabel;
+
+    // Set a delay that will trigger re-render of the ActionBar
+    setTimeout(function () {
+        page.actionBar.requestLayout(); // Add new ActionItem can also trigger the same issue
+    }, 2000); // This issue can be triggered even if the delay is just 10ms
+}
+
+function onTap(args) {
+    var topmost = frameModule.topmost();
+    console.log("try navigate");
+    topmost.navigate({
+        moduleName: "detail-page",
+        animated: true,
+        transition: undefined //{ name: "slide", duration: 300, curve: "easeIn" }
+    });
+}
+
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo
@@ -39,3 +69,5 @@ function here makes the navigatingTo="onNavigatingTo" binding in this page’s X
 file work.
 */
 exports.onNavigatingTo = onNavigatingTo;
+exports.onLoaded = onLoaded;
+exports.onTap = onTap;
