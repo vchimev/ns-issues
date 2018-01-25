@@ -29,8 +29,8 @@ https://docs.nativescript.org/ui/components.
         <Button text="TAP" tap="{{ onTap }}" class="btn btn-primary btn-active"/>
         <Label text="{{ message }}" class="h2 text-center" textWrap="true"/> -->
 
-        <Label text="This page uses ActionBar.title so it does not have any issue" class="h1 text-center" textWrap="true"/>
+        <!-- <Label text="This page uses ActionBar.title so it does not have any issue" class="h1 text-center" textWrap="true"/>
         <Label text="Tap the button below to reproduce the issue" class="h1 text-center" textWrap="true"/>
-        <Button text="Navigate" tap="onTap" class="btn btn-primary btn-active"/>
+        <Button text="Navigate" tap="onTap" class="btn btn-primary btn-active"/> -->
     </StackLayout>
 </Page>
