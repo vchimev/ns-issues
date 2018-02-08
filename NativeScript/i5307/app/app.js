@@ -7,6 +7,14 @@ purpose of the file is to pass control to the app’s first module.
 require("./bundle-config");
 var application = require("application");
 
+application.on(application.launchEvent, function() {
+    console.log("application.launchEvent");
+});
+
+application.on(application.resumeEvent, function() {
+    console.log("application.resumeEvent");
+});
+
 application.start({ moduleName: "main-page" });
 
 /*

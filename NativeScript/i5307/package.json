@@ -6,12 +6,12 @@
 	"nativescript": {
 		"id": "org.nativescript.i5307",
 		"tns-android": {
-			"version": "3.4.1"
+			"version": "next"
 		}
 	},
 	"dependencies": {
 		"nativescript-theme-core": "~1.0.4",
-		"tns-core-modules": "~3.4.0"
+		"tns-core-modules": "next"
 	},
 	"devDependencies": {
 		"babel-traverse": "6.26.0",
